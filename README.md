@@ -2,6 +2,8 @@
 
 This repository provides instructions for downloading, accessing, and using a Dockerized Ubuntu image with QIIME2 v2023.7 and the Sidle plugin preinstalled.
 
+To install docker on ubuntu machines please visit the [Docker website](https://docs.docker.com/engine/install/ubuntu/)
+
 ## Pull the Docker Image
 
 To pull the Docker image from Docker Hub, use the following command:
