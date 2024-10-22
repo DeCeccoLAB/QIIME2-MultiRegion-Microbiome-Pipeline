@@ -6,7 +6,7 @@ To install docker on ubuntu machines please visit the [Docker website](https://d
 
 ## Pull the Docker Image
 
-To pull the Docker image from Docker Hub, use the following command:
+To pull the Docker image from [Docker Hub](https://hub.docker.com/), use the following command:
 
 `sudo docker pull armalica/qiime2:v1`
 
