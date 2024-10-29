@@ -37,6 +37,7 @@ navigate in your analysis folder
 for convininence we will create several directories that will contain the itermidiate files for each V region
 
 `mkdir ./V{2,3,4,67,8,9}` 
+
 this command will create 6 new working folder 1 for each region
 
 # Data import
