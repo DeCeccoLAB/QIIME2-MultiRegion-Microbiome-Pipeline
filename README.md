@@ -6,7 +6,7 @@ To install docker on ubuntu machines please visit the [Docker website](https://d
 
 To know more about QIIME 2 please visit [QIIME 2](https://qiime2.org/)
 
-This [site](https://docs.qiime2.org/2024.5/) is the official user documentation for QIIME 2, including installation instructions, tutorials, and other important information. 
+This [site](https://docs.qiime2.org/2024.5/) provides the official QIIME 2 user documentation, including installation instructions, tutorials, and other essential information. 
 
 CERCA ZENODO SE DEVI FARE UPLOAD DI GROSSI DATABASE: [ZENODO](https://zenodo.org/)
 
@@ -30,20 +30,20 @@ Once inside the Docker container, activate the QIIME2 environment using the foll
 
 `conda activate qiime2-2023.7`
 
-navigate in your analysis folder 
+Navigate to your analysis folder.
 
 `cd /tmp/mnt/path/to/working/directory`
 
-for convininence we will create several directories that will contain the itermidiate files for each V region
+For convenience, we will create several directories to store the intermediate files for each V region.
 
 `mkdir ./V{2,3,4,67,8,9}` 
 
-this command will create 6 new working folder 1 for each region
+This command will create six new working folders, one for each region.
 
 # Data import
-For this ppipeline the deconvoluted fastq will be imported into QIIME2 environment using the manifest fastq method.
+In this pipeline, the deconvoluted FASTQ files will be imported into the QIIME2 environment using the manifest FASTQ method.
 
-Note: this process will be repeated for each hypervarible(V) region 
+Note: This process will be repeated for each hypervariable (V) region.
 ```
  qiime tools import \
 --type 'SampleData[SequencesWithQuality]' \
