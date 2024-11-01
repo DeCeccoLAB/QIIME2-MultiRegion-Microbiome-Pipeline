@@ -41,15 +41,14 @@ For convenience, we will create several directories to store the intermediate fi
 This command will create six new working folders, one for each region.
 
 # Data import
-In this pipeline, the deconvoluted FASTQ files will be imported into the QIIME2 environment using the manifest FASTQ method.
-The manifest should be prepared as .tsv file as follows 
+In this pipeline, the deconvoluted FASTQ files will be imported into the QIIME2 environment using the manifest FASTQ method. The manifest file should be prepared as a .tsv file in the following format:
+
 |  sample-id | absolute-filepath |
 | ------------- | ------------- |
 | sample-1  |  /tmp/mnt/path/to/file/sample-1.V#.FR.fastq | 
 | sample-2  |  /tmp/mnt/path/to/file/sample-2.V#.FR.fastq | 
 
-The metagenomicsPP plugin will output 6 files for each fastq deconvuluted one of each V region, we will import the same V region of every sample in our dataset.
-change the "#" with the acutal number or region you want to import
+The metagenomicsPP plugin will generate six files for each deconvoluted FASTQ file corresponding to each V region. We will import the specific V region for every sample in our dataset. Replace `#` with the actual number of the region you wish to import.
 
 Note: This process will be repeated for each hypervariable (V) region.
 ```
