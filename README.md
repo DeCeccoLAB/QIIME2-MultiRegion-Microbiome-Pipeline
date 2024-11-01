@@ -99,3 +99,4 @@ qiime feature-table tabulate-seqs \
   --i-data rep-seqs-dada2-pyroV#.qza \
   --o-visualization rep-seqs-dada2-pyroV#.qzv
 ```
+# Merging dada2 tables and rep seqs
