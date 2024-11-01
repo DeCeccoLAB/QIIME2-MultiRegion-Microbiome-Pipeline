@@ -99,4 +99,27 @@ qiime feature-table tabulate-seqs \
   --i-data rep-seqs-dada2-pyroV#.qza \
   --o-visualization rep-seqs-dada2-pyroV#.qzv
 ```
-# Merging dada2 tables and rep seqs
+# Merging DADA2 Tables and Representative Sequences
+After denoising each region separately, we need to merge them to use all regions collectively. QIIME 2 provides tools to merge both DADA2 tables and ASV sequences.
+
+Now, let’s return to the working directory and gather all the files required for the merging process.
+
+Note: Before proceeding, ensure you have a single DADA2 folder containing the files from the correct denoising run.
+```
+cd ../../
+cp ./V*/dada*/table-dada2-pyro*.qza ./
+cp ./V*/dada*/rep-seqs-dada2-pyro*.qza ./
+```
+These commands will copy the representative sequences and tables from each V folder into the main working directory.
+We can now proceed with merging the files:
+```
+qiime feature-table merge \
+ --i-tables table-dada2-pyroV{2,3,4,67,8,9}.qza \
+ --p-overlap-method sum  \
+ --o-merged-table merged-tableV2-9.qza
+
+qiime feature-table merge-seqs \
+ --i-data rep-seqs-dada2-pyroV{2,3,4,67,8,9}.qza \
+ --o-merged-data rep-seqsV2-9.qza  
+```
+To replicate IR's results, ensure that all overlapping ASVs across regions are summed by using the `--p-overlap-method sum` option.
