@@ -56,17 +56,17 @@ Upload the manifest files in the corresponding V region folder, then for each fo
 
 Note: This process will be repeated for each hypervariable (V) region.
 ```
- qiime tools import \
---type 'SampleData[SequencesWithQuality]' \
---input-path manifestV#.txt \ # a manifest file for each V region
---output-path single-end-demuxV#.qza \
---input-format SingleEndFastqManifestPhred33V2
+qiime tools import \
+ --type 'SampleData[SequencesWithQuality]' \
+ --input-path manifestV#.txt \ # a manifest file for each V region
+ --output-path single-end-demuxV#.qza \
+ --input-format SingleEndFastqManifestPhred33V2
 ```
 After importing, we can assess the read quality to identify the sequence length where the quality score is ≥ 25 at the 25th percentile of the quality score distribution, which is approximately 200 bp.
 ```
 qiime demux summarize \
---i-data single-end-demuxV#.qza \
---o-visualization single-end-demuxV#.qzv
+ --i-data single-end-demuxV#.qza \
+ --o-visualization single-end-demuxV#.qzv
 ```
 
 # DADA2 denoising
@@ -81,18 +81,18 @@ As described in our paper and in the dada2 documentation, ion torrent data shoul
 Since the metagenomics PP preprocess the fastq files we can avoid to trim on the left part of the reads `--p-trim-left 0` while on the right side we will truncate at the legth chose before ` --p-trunc-len 200 `
 ```
 qiime dada2 denoise-pyro \
---i-demultiplexed-seqs ../single-end-demuxV#.qza \
-  --p-trim-left 0 \
-  --p-trunc-len 200 \
-  --p-n-threads 4 \ # Change the number of threads to speed up the denoising process
-  --o-table table-dada2-pyroV#.qza \
---o-representative-sequences rep-seqs-dada2-pyroV#.qza \
-  --o-denoising-stats stats-dadaV#.qza
+ --i-demultiplexed-seqs ../single-end-demuxV#.qza \
+ --p-trim-left 0 \
+ --p-trunc-len 200 \
+ --p-n-threads 4 \ # Change the number of threads to speed up the denoising process
+ --o-table table-dada2-pyroV#.qza \
+ --o-representative-sequences rep-seqs-dada2-pyroV#.qza \
+ --o-denoising-stats stats-dadaV#.qza
 ```
 Now we can proceed to inspect the denoising stats, for a good deonoising run we should keep at least 70-80% of our original read counts
 
 ```
-  qiime metadata tabulate \
+qiime metadata tabulate \
   --m-input-file stats-dadaV#.qza \
   --o-visualization stats-dada2V#.qzv
 qiime feature-table tabulate-seqs \
