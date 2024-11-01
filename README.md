@@ -123,3 +123,54 @@ qiime feature-table merge-seqs \
  --o-merged-data rep-seqsV2-9.qza  
 ```
 To replicate IR's results, ensure that all overlapping ASVs across regions are summed by using the `--p-overlap-method sum` option.
+
+# Insert fragment sequences into reference phylogenies with SEPP
+Now that we have our merged sequences and table we can proceed to generate the phylogenic tree using the fragment insertion algorithm SEPP.
+The reference database used in our paper can be found in [QIIME 2 resources page](https://docs.qiime2.org/2023.7/data-resources/)
+
+Let's create a folder to store our files
+```
+mkdir phylogeny
+cd phylogeny
+```
+We can now proceed with the fragment insertion process. As noted by the original developers, this step may take considerable time depending on the number of samples analyzed. Since this algorithm requires 8 GB of RAM per core for parallelization, ensure you do not exceed this limit to avoid potential interruptions due to memory issues.
+
+For example, if your workstation has 32 GB of RAM, it is safe to parallelize the process using up to 8 threads.
+
+```
+qiime fragment-insertion sepp \
+  --i-representative-sequences ../rep-seqsV2-9.qza \
+  --i-reference-database /tmp/mnt/path/to/sepp-refs-gg-13-8.qza \
+  --o-tree insertion-tree.qza \
+  --p-threads 8 \
+  --o-placements insertion-placements.qza 
+```
+Now the sequences that were discarded during the insertion process should be filtered from the merged table and rep seqs
+
+```
+qiime fragment-insertion filter-features \
+  --i-table ../merged-tableV2-9.qza \
+  --i-tree insertion-tree.qza \
+  --o-filtered-table filtered_table.qza \
+--o-removed-table removed_table.qza
+
+qiime feature-table filter-seqs \
+--i-data ../rep-seqsV2-9.qza \
+--i-table filtered_table.qza \
+--o-filtered-data filtered-seqs.qza
+```
+
+# 
+
+
+
+```
+nohup qiime feature-classifier extract-reads \
+--i-sequences gg_13_5.qza \
+--p-f-primer AGRGTTYGATYMTGGCTCAG \
+--p-r-primer  RGYTACCTTGTTACGACTT \
+--p-min-length 1400 \
+--p-max-length 1600 \
+--p-n-jobs 50 \
+--o-reads gg_13_5V2-9/ref-seqs_gg_13_5_V2-9.qza
+```
