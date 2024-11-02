@@ -179,7 +179,7 @@ qiime tools import \
   --input-path  gg_13_5_taxonomy.txt \
   --output-path ./gg_13_5_taxonomy.qza
 ```
-Next, we can proceed to extract the reads using the primer set for the entire 16S gene. This process may take some time, so we recommend parallelizing it by adding more cores with the --p-n-jobs option. The chosen primer targets the full 16S gene. Although the 16S metagenomics kit does not sequence the V1 region, we opted to include coverage for this region to capture the conserved area between V1 and V2.
+Next, we can proceed to extract the reads using the primer set for the entire 16S gene. This process may take some time, so we recommend parallelizing it by adding more cores with the `--p-n-jobs option` The chosen primer targets the full 16S gene. Although the 16S metagenomics kit does not sequence the V1 region, we opted to include coverage for this region to capture the conserved area between V1 and V2.
 ```
 qiime feature-classifier extract-reads \
 --i-sequences gg_13_5.qza \
@@ -200,4 +200,25 @@ qiime feature-classifier classify-consensus-vsearch \
 --p-perc-identity 0.99 \
 --p-threads 10 \
 --output-dir ./taxonomy99
+```
+# Importing QIIME 2 data into RStudio
+With all the necessary files prepared, we can now import the data into RStudio using the [qiime2R](https://github.com/jbisanz/qiime2R) package. 
+Here is the list of required files for this tutorial. We will copy them into a new folder called Phyloseq99.
+```
+mkdir phyloseq99
+cp taxonomy99/classification.qza phyloseq99/
+cp phylogeny/filtered_table.qza phyloseq99/
+cp phylogeny/insertion-tree.qza phyloseq99/
+cp meta.txt  phyloseq99/
+```
+Once all required packages are installed, you can proceed to import the data into R using the following code:
+```
+library(qiime2R)
+library(phyloseq)
+
+physeq_V2-9<-qza_to_phyloseq(
+  features="phyloseq99/filtered_table.qza",
+  tree="phyloseq99/insertion-tree.qza", "phyloseq99/taxonomy.qza",
+  metadata = "phyloseq99/metadata.txt"
+)
 ```
