@@ -159,18 +159,45 @@ qiime feature-table filter-seqs \
 --i-table filtered_table.qza \
 --o-filtered-data filtered-seqs.qza
 ```
+Note: now that we filtered the sequences not recognized we have our final dataset, from now you can use all the other tools offered by QIIME 2 
 
-# 
+# Taxonomic analysis
+Next, we will classify our representative sequences using the VSEARCH algorithm. To leverage all regions effectively, we need to prepare a feature classifier trained on our regions of interest. For this, we will use the Greengenes database, prepare the reference sequences, and then proceed with classification
 
-
-
+## Database preparation
+First, download the taxonomy and sequence files from [Greengenes](https://greengenes.secondgenome.com/) and import them into QIIME 2:
+In a different directory:
 ```
-nohup qiime feature-classifier extract-reads \
+qiime tools import \
+  --type 'FeatureData[Sequence]' \
+  --input-path gg_13_5.fasta \
+  --output-path gg_13_5.qza
+
+qiime tools import \
+  --type 'FeatureData[Taxonomy]' \
+  --input-format HeaderlessTSVTaxonomyFormat \
+  --input-path  gg_13_5_taxonomy.txt \
+  --output-path ./gg_13_5_taxonomy.qza
+```
+Next, we can proceed to extract the reads using the primer set for the entire 16S gene. This process may take some time, so we recommend parallelizing it by adding more cores with the --p-n-jobs option. The chosen primer targets the full 16S gene. Although the 16S metagenomics kit does not sequence the V1 region, we opted to include coverage for this region to capture the conserved area between V1 and V2.
+```
+qiime feature-classifier extract-reads \
 --i-sequences gg_13_5.qza \
 --p-f-primer AGRGTTYGATYMTGGCTCAG \
 --p-r-primer  RGYTACCTTGTTACGACTT \
 --p-min-length 1400 \
 --p-max-length 1600 \
---p-n-jobs 50 \
+--p-n-jobs 12 \ 
 --o-reads gg_13_5V2-9/ref-seqs_gg_13_5_V2-9.qza
+```
+## VSEARCH Taxonomy classification
+Now, we can return to our working directory and classify our filtered sequences using the extracted reads from the database:
+```
+qiime feature-classifier classify-consensus-vsearch \
+--i-query phylogeny/filtered-seqs.qza \
+--i-reference-reads /tmp/mnt/path/to/gg_13_5V2-9/ref-seqs_gg_13_5_V2-9.qza \
+--i-reference-taxonomy /tmp/mnt/path/to/gg_13_5_taxonomy.qza \
+--p-perc-identity 0.99 \
+--p-threads 10 \
+--output-dir ./taxonomy99
 ```
