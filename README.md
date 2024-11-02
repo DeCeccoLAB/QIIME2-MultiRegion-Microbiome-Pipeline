@@ -162,7 +162,7 @@ qiime feature-table filter-seqs \
 Note: now that we filtered the sequences not recognized we have our final dataset, from now you can use all the other tools offered by QIIME 2 
 
 # Taxonomic analysis
-Next, we will classify our representative sequences using the VSEARCH algorithm. To leverage all regions effectively, we need to prepare a feature classifier trained on our regions of interest. For this, we will use the Greengenes database, prepare the reference sequences, and then proceed with classification
+Next, we will classify our representative sequences using the VSEARCH algorithm. To leverage all regions effectively, we need to prepare a feature classifier trained on our regions of interest. For this, we will download the Greengenes database, prepare the reference sequences, and then proceed with classification
 
 ## Database preparation
 First, download the taxonomy and sequence files from [Greengenes](https://greengenes.secondgenome.com/) and import them into QIIME 2:
