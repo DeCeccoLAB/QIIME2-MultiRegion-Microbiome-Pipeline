@@ -205,10 +205,10 @@ qiime feature-classifier classify-consensus-vsearch \
 With all the necessary files prepared, we can now import the data into RStudio using the [qiime2R](https://github.com/jbisanz/qiime2R) package. 
 Here is the list of required files for this tutorial. We will copy them into a new folder called Phyloseq99.
 
-`classification.qza`: Classification file generated with VSEARCH.
-`filtered_table.qza`: Filtered DADA2 table excluding unrecognized sequences from the sequence insertion process.
-`insertion-tree.qza`: Phylogenetic tree file generated with SEPP.
-`metadata.txt`: Sample metadata file.
+* `classification.qza`: Classification file generated with VSEARCH.
+* `filtered_table.qza`: Filtered DADA2 table excluding unrecognized sequences from the sequence insertion process.
+* `insertion-tree.qza`: Phylogenetic tree file generated with SEPP.
+* `metadata.txt`: Sample metadata file.
 
 ```
 mkdir phyloseq99
@@ -227,4 +227,10 @@ physeq_V2-9<-qza_to_phyloseq(
   tree="phyloseq99/insertion-tree.qza", "phyloseq99/taxonomy.qza",
   metadata = "phyloseq99/metadata.txt"
 )
+```
+After importing, we can proceed with preprocessing. Using functions built into Phyloseq, we can filter out unassigned ASVs, for example.
+```
+taxa <- tax_table(physeq_V2-9)%>%as.data.frame()
+taxa_keep<- rownames(taxa%>%subset(Kingdom!="Unassigned"))
+physeq_V2-9_fil = prune_taxa(taxa_keep, physeq_V2-9)
 ```
