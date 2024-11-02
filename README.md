@@ -204,12 +204,18 @@ qiime feature-classifier classify-consensus-vsearch \
 # Importing QIIME 2 data into RStudio
 With all the necessary files prepared, we can now import the data into RStudio using the [qiime2R](https://github.com/jbisanz/qiime2R) package. 
 Here is the list of required files for this tutorial. We will copy them into a new folder called Phyloseq99.
+
+`classification.qza`: Classification file generated with VSEARCH.
+`filtered_table.qza`: Filtered DADA2 table excluding unrecognized sequences from the sequence insertion process.
+`insertion-tree.qza`: Phylogenetic tree file generated with SEPP.
+`metadata.txt`: Sample metadata file.
+
 ```
 mkdir phyloseq99
 cp taxonomy99/classification.qza phyloseq99/
 cp phylogeny/filtered_table.qza phyloseq99/
 cp phylogeny/insertion-tree.qza phyloseq99/
-cp meta.txt  phyloseq99/
+cp metadata.txt  phyloseq99/
 ```
 Once all required packages are installed, you can proceed to import the data into R using the following code:
 ```
