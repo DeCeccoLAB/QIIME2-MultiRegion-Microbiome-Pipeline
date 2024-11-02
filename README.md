@@ -1,6 +1,6 @@
-# QIIME2023.7-Docker
+# QIIME 2 Multi-region Pipeline
 
-This repository provides instructions for downloading, accessing, and using a Dockerized Ubuntu image with QIIME 2 v2023.7 and the Sidle plugin preinstalled.
+This repository provides instructions for downloading, accessing, and using a Dockerized Ubuntu image with QIIME 2 v2023.7 and the Sidle plugin preinstalled. Additionally, the pipeline is specifically designed to process Ion Torrent sequencing data, enabling accurate and efficient microbial diversity profiling.
 
 To install docker on ubuntu machines please visit the [Docker website](https://docs.docker.com/engine/install/ubuntu/)
 
