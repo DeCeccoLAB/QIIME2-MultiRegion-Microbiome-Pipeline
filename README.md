@@ -152,12 +152,12 @@ qiime fragment-insertion filter-features \
   --i-table ../merged-tableV2-9.qza \
   --i-tree insertion-tree.qza \
   --o-filtered-table filtered_table.qza \
---o-removed-table removed_table.qza
+  --o-removed-table removed_table.qza
 
 qiime feature-table filter-seqs \
---i-data ../rep-seqsV2-9.qza \
---i-table filtered_table.qza \
---o-filtered-data filtered-seqs.qza
+  --i-data ../rep-seqsV2-9.qza \
+  --i-table filtered_table.qza \
+  --o-filtered-data filtered-seqs.qza
 ```
 Note: now that we filtered the sequences not recognized we have our final dataset, from now you can use all the other tools offered by QIIME 2 
 
@@ -182,24 +182,24 @@ qiime tools import \
 Next, we can proceed to extract the reads using the primer set for the entire 16S gene. This process may take some time, so we recommend parallelizing it by adding more cores with the `--p-n-jobs option` The chosen primer targets the full 16S gene. Although the 16S metagenomics kit does not sequence the V1 region, we opted to include coverage for this region to capture the conserved area between V1 and V2.
 ```
 qiime feature-classifier extract-reads \
---i-sequences gg_13_5.qza \
---p-f-primer AGRGTTYGATYMTGGCTCAG \
---p-r-primer  RGYTACCTTGTTACGACTT \
---p-min-length 1400 \
---p-max-length 1600 \
---p-n-jobs 12 \ 
---o-reads gg_13_5V2-9/ref-seqs_gg_13_5_V2-9.qza
+  --i-sequences gg_13_5.qza \
+  --p-f-primer AGRGTTYGATYMTGGCTCAG \
+  --p-r-primer  RGYTACCTTGTTACGACTT \
+  --p-min-length 1400 \
+  --p-max-length 1600 \
+  --p-n-jobs 12 \ 
+  --o-reads gg_13_5V2-9/ref-seqs_gg_13_5_V2-9.qza
 ```
 ## VSEARCH Taxonomy classification
 Now, we can return to our working directory and classify our filtered sequences using the extracted reads from the database:
 ```
 qiime feature-classifier classify-consensus-vsearch \
---i-query phylogeny/filtered-seqs.qza \
---i-reference-reads /tmp/mnt/path/to/gg_13_5V2-9/ref-seqs_gg_13_5_V2-9.qza \
---i-reference-taxonomy /tmp/mnt/path/to/gg_13_5_taxonomy.qza \
---p-perc-identity 0.99 \
---p-threads 10 \
---output-dir ./taxonomy99
+  --i-query phylogeny/filtered-seqs.qza \
+  --i-reference-reads /tmp/mnt/path/to/gg_13_5V2-9/ref-seqs_gg_13_5_V2-9.qza \
+  --i-reference-taxonomy /tmp/mnt/path/to/gg_13_5_taxonomy.qza \
+  --p-perc-identity 0.99 \
+  --p-threads 10 \
+  --output-dir ./taxonomy99
 ```
 # Importing QIIME 2 data into RStudio
 With all the necessary files prepared, we can now import the data into RStudio using the [qiime2R](https://github.com/jbisanz/qiime2R) package. 
