@@ -224,7 +224,7 @@ library(phyloseq)
 
 physeq_V2-9<-qza_to_phyloseq(
   features="phyloseq99/filtered_table.qza",
-  tree="phyloseq99/insertion-tree.qza", "phyloseq99/taxonomy.qza",
+  tree="phyloseq99/insertion-tree.qza", "phyloseq99/classification.qza",
   metadata = "phyloseq99/metadata.txt"
 )
 ```
