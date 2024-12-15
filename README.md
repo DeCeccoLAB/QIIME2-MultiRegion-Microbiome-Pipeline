@@ -8,7 +8,6 @@ To know more about QIIME 2 please visit [QIIME 2](https://qiime2.org/)
 
 This [site](https://docs.qiime2.org/2024.5/) provides the official QIIME 2 user documentation, including installation instructions, tutorials, and other essential information. 
 
-CERCA ZENODO SE DEVI FARE UPLOAD DI GROSSI DATABASE: [ZENODO](https://zenodo.org/)
 
 ## Pull the Docker Image
 
