@@ -200,6 +200,29 @@ qiime feature-classifier classify-consensus-vsearch \
   --p-threads 10 \
   --output-dir ./taxonomy99
 ```
+### OPTIONAL: Database Curation
+Because `classify-consensus-vsearch` can be memory-intensive—especially for large datasets—our Docker image includes the [RESCRIPt](https://github.com/bokulich-lab/RESCRIPt) plugin by default. You can use RESCRIPt to:
+
+- **Deduplicate reference sequences**  
+- **Filter out unwanted sequences**, such as mitochondria or chloroplasts  
+- **Remove sequences undefined at higher taxonomic levels**
+
+These steps can significantly reduce the size of your database and help optimize classification performance.
+```
+qiime taxa filter-seqs \
+   --i-sequences /tmp/mnt/path/to/gg_13_5V2-9/ref-seqs_gg_13_5_V2-9.qza \
+   --i-taxonomy /tmp/mnt/path/to/gg_13_5_taxonomy.qza \
+   --p-exclude "p__;,k__;" \
+   --p-mode contains \
+   --o-filtered-sequences /tmp/mnt/path/to/gg_13_5V2-9/filtereddb/ggV2-9-filtered-phylum-def-sequences.qza
+
+ qiime rescript dereplicate \
+    --i-sequences /tmp/mnt/path/to/gg_13_5V2-9/filtereddb/ggV2-9-filtered-phylum-def-sequences.qza \
+    --i-taxa /tmp/mnt/path/to/gg_13_5_taxonomy.qza \
+    --p-mode 'uniq' \
+    --o-dereplicated-sequences tmp/mnt/path/to/gg_13_5V2-9/filtereddb/filtereddb/ggV2-9-filtered-phylum-def-sequences-uniq.qza \
+    --o-dereplicated-taxa  tmp/mnt/path/to/gg_13_5V2-9/filtereddb/filtereddb/ggV2-9-filtered-phylum-def-tax-derep-uniq.qza
+```
 # Importing QIIME 2 data into RStudio
 With all the necessary files prepared, we can now import the data into RStudio using the [qiime2R](https://github.com/jbisanz/qiime2R) package. 
 Here is the list of required files for this tutorial. We will copy them into a new folder called Phyloseq99.
