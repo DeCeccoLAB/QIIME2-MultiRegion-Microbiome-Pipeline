@@ -39,6 +39,8 @@ For convenience, we will create several directories to store the intermediate fi
 
 This command will create six new working folders, one for each region.
 
+> Note: the V6-7 amplicon is denoted as 'V67' in our pipeline's file structure for scripting simplicity
+
 # Data import
 In this pipeline, the deconvoluted FASTQ files will be imported into the QIIME2 environment using the manifest FASTQ method. The manifest file should be prepared as a .tsv file in the following format:
 
