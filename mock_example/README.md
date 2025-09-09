@@ -328,18 +328,40 @@ The insertion placement will generate 2 files:
 Now we need to filter out the sequences that were not inserted into the rooted tree
 ```
 qiime fragment-insertion filter-features \
-  --i-table ../merged-tableV2-9.qza \
-  --i-tree insertion-tree.qza \
-  --o-filtered-table filtered_table.qza \
-  --o-removed-table removed_table.qza
+  --i-table ./merged-tableV2-9.qza \
+  --i-tree ./phylogeny/insertion-tree.qza \
+  --o-filtered-table ./phylogeny/filtered_table.qza \
+  --o-removed-table ./phylogeny/removed_table.qza
 
 qiime feature-table filter-seqs \
---i-data ../rep-seqsV2-9.qza \
---i-table filtered_table.qza \
---o-filtered-data filtered-seqs.qza
-
-qiime feature-table summarize \
-  --i-table filtered_table.qza \
-  --o-visualization feature-table.qzv \
-  --m-sample-metadata-file ../metadata_qiime2.txt
+--i-data ./rep-seqsV2-9.qza \
+--i-table ./phylogeny/filtered_table.qza \
+--o-filtered-data ./phylogeny/filtered-seqs.qza
 ```
+This command will output three files:
+*> Saved FeatureTable[Frequency] to: ./phylogeny/filtered_table.qza
+*>Saved FeatureTable[Frequency] to: ./phylogeny/removed_table.qza
+*>Saved FeatureData[Sequence] to: ./phylogeny/filtered-seqs.qza
+
+Now we can inspect the filtered table by running `feature-table summarize`
+```
+qiime feature-table summarize \
+  --i-table ./phylogeny/filtered_table.qza \
+  --o-visualization ./phylogeny/filtered-table.qzv \
+  --m-sample-metadata-file ./meta.txt
+```
+## Step5: Taxonomy classification
+
+```
+qiime feature-classifier classify-consensus-vsearch \
+--i-query ./phylogeny/filtered-seqs.qza \
+--i-reference-reads ./db/ref-seqs_gg_13_5_V2-9.qza \
+--i-reference-taxonomy ./db/gg_13_5_taxonomy.qza \
+--p-perc-identity 0.99 \
+--p-threads 10 \
+--output-dir ./taxonomy99
+```
+
+this step will generate 2 files inside the directory `./taxonomy99`
+*> Saved FeatureData[Taxonomy] to: ./taxonomy99/classification.qza
+*> Saved FeatureData[BLAST6] to: ./taxonomy99/search_results.qza
