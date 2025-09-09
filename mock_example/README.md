@@ -40,3 +40,8 @@ tar -xvzf mock_data.tar.gz
     ├── metaV9.txt
     └── single-end-demux.qza
 ```
+## Data Import
+
+## QC
+
+![plot](https://github.com/DeCeccoLAB/QIIME2-MultiRegion-Microbiome-Pipeline/blob/main/mock_example/input_data/Screenshot%202025-09-09%20095820.jpg?raw=true)
