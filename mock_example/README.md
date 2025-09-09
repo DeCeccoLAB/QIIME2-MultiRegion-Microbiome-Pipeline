@@ -379,11 +379,13 @@ cp meta.txt  phyloseq
 
 At the end we will obtain these files:
 
+```
 ./phyloseq/
 ├── classification.qza
 ├── filtered_table.qza
 ├── insertion-tree.qza
 └── meta.txt
+```
 
 * `classification.qza` The taxonomy classification obatined using `VSEARCH` using local-to-global alignment mode
 * `filtered_table.qza` The ASV table containing all the ASV that were succefully inserted into the rooted tree
