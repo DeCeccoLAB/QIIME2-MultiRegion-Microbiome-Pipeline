@@ -365,3 +365,27 @@ qiime feature-classifier classify-consensus-vsearch \
 this step will generate 2 files inside the directory `./taxonomy99`
 * > Saved FeatureData[Taxonomy] to: ./taxonomy99/classification.qza
 * > Saved FeatureData[BLAST6] to: ./taxonomy99/search_results.qza
+
+## Step6: Outputs and R-import
+Now that we completed the taxonomy classification we can regroup the important files to be imported into R for downstream analyses:
+
+```
+mkdir phyloseq
+cp taxonomy99/classification.qza phyloseq/
+cp phylogeny/filtered_table.qza phyloseq/
+cp phylogeny/insertion-tree.qza phyloseq/
+cp meta.txt  phyloseq
+```
+
+At the end we will obtain these files:
+
+./phyloseq/
+├── classification.qza
+├── filtered_table.qza
+├── insertion-tree.qza
+└── meta.txt
+
+* `classification.qza` The taxonomy classification obatined using `VSEARCH` using local-to-global alignment mode
+* `filtered_table.qza` The ASV table containing all the ASV that were succefully inserted into the rooted tree
+* `insertion-tree.qza` The inserted tree obtained using `SEPP`
+* `meta.txt` (Optional) The metadata file that can be imported along with the other files
