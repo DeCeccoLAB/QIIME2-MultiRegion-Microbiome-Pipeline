@@ -169,7 +169,7 @@ Moving to the tab of the interactive plot, we will chose the length by wich the 
 
 ## Step3: Denoising 
 
-After the visualt inspection of all the `.qzv` we will parse to dada2 the lenght that we want, we suggest to create a directory for each run of dada2 since later we will inspect the denoised stats to check if the leght chosen kept al least 70-80% of our original sequences
+After the visualt inspection of all the `.qzv` we will parse to dada2 the lenght that we want, we suggest to create a directory for each run of dada2 since later we will inspect the denoised stats to check if the leght chosen kept al least 60-80% of our original sequences
 
 ```
 ### V2
@@ -282,8 +282,44 @@ qiime metadata tabulate \
 
 ```
 The metadata tabulate will generate a .qzv file containing the donoising stats to be inspected with QIIME view.
-
+Here is the example of the denoised stats of the V2 fastqs:
+![plot](https://github.com/DeCeccoLAB/QIIME2-MultiRegion-Microbiome-Pipeline/blob/main/mock_example/input_data/Screenshot%202025-09-09%20142509.jpg?raw=true)
 > Note: As observed in our original work, the V9 region did not gave any sequence after the denoising, probabily due to the mock composition or the low sequencing depth, but we will keep the file as is and continue with the example
 
+## Step4: Data merging
 
+```
+cp ./V*/dada*/table-dada2-pyro*.qza ./
+cp ./V*/dada*/rep-seqs-dada2-pyro*.qza ./
+```
+```
+ qiime feature-table merge \
+--i-tables table-dada2-pyroV{2,3,4,67,8,9}.qza \
+--p-overlap-method sum  \
+--o-merged-table merged-tableV2-9.qza
 
+qiime feature-table merge-seqs \
+--i-data rep-seqs-dada2-pyroV{2,3,4,67,8,9}.qza \
+--o-merged-data rep-seqsV2-9.qza
+```
+
+the code will automatically merge all the sequences and tables to generate a unique table, since this workflow is used to generate a multi-aplicon profile we need to provide an option to tell QIIME to merge different tables coming from the same sample using the option `--p-overlap-method sum `
+
+*Saved FeatureTable[Frequency] to: merged-tableV2-9.qza
+*Saved FeatureData[Sequence] to: rep-seqsV2-9.qza
+
+## Step5: Tree generation
+
+```
+mkdir phylogeny
+
+qiime fragment-insertion sepp \
+  --i-representative-sequences ./rep-seqsV2-9.qza \
+  --i-reference-database ./db/sepp-refs-gg-13-8.qza \
+  --o-tree ./phylogeny/insertion-tree.qza \
+  --p-threads 30 \
+  --o-placements ./phylogeny/insertion-placements.qza
+```
+
+```
+```
