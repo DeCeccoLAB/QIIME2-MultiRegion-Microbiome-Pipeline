@@ -87,7 +87,6 @@ For this tutorial we provide a script that will automatically generate 6 folder 
 ```
 bash script.sh
 ```
-this command will create 6 folders and generate the manifest files for this example
 
 now we can proceed with the import, first ensure you have activated the QIIME2 environment 
 ```
@@ -179,7 +178,7 @@ Moving to the tab of the interactive plot, we will chose the length by wich the 
 
 ## Step3: Denoising 
 
-After the visualt inspection of all the `.qzv` we will parse to dada2 the lenght that we want, we suggest to create a directory for each run of dada2 since later we will inspect the denoised stats to check if the leght chosen kept al least 60-80% of our original sequences
+After the visual inspection of all the `.qzv` we will parse to dada2 the lenght that we want, we suggest to create a directory for each run of dada2 since later we will inspect the denoised stats to check if the leght chosen kept al least 60-80% of our original sequences
 
 ```
 ### V2
@@ -262,7 +261,7 @@ Saved SampleData[DADA2Stats] to: ./V2/dada2-0-200/stats-dada2V2.qza
 .
 ```
 ### Denoising-QC
-To check if our denosing did a good job in keeping most of our reads we need to inspect the denoising stats
+To check if our denosing did a good job in keeping most of our reads we can inspect the denoising stats
 
 ```
 ### V2
@@ -291,7 +290,7 @@ qiime metadata tabulate \
   --o-visualization ./V9/dada2-0-170/stats-dada2V9.qzv
 
 ```
-The metadata tabulate will generate a .qzv file containing the donoising stats to be inspected with QIIME view.
+The `metadata tabulate` will generate a `.qzv` file containing the donoising stats to be inspected with QIIME view.
 Here is the example of the denoised stats of the V2 fastqs:
 ![plot](https://github.com/DeCeccoLAB/QIIME2-MultiRegion-Microbiome-Pipeline/blob/main/mock_example/input_data/Screenshot%202025-09-09%20142509.jpg?raw=true)
 > Note: As observed in our original work, the V9 region did not gave any sequence after the denoising, probabily due to the mock composition or the low sequencing depth, but we will keep the file as is and continue with the example
@@ -313,7 +312,7 @@ qiime feature-table merge-seqs \
 --o-merged-data rep-seqsV2-9.qza
 ```
 
-the code will automatically merge all the sequences and tables to generate a unique table, since this workflow is used to generate a multi-aplicon profile we need to provide an option to tell QIIME to merge different tables coming from the same sample using the option `--p-overlap-method sum `
+the code will merge all the sequences and tables to generate a unique table, since this workflow is used to generate a multi-aplicon profile we need to provide an option to tell QIIME to merge different tables coming from the same sample using the option `--p-overlap-method sum `
 
 * >Saved FeatureTable[Frequency] to: merged-tableV2-9.qza
 * >Saved FeatureData[Sequence] to: rep-seqsV2-9.qza
