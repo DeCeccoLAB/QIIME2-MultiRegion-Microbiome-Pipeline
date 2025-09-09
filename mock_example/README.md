@@ -12,7 +12,10 @@ tar -xvzf mock_data.tar.gz
 cd mock_data
 
 ```
+Now that you downloaded the file from this repository the content will appear like this 
 
+2 folders named `db` and `fastq` that contains the reference databases used in our original paper and the raw data that we will use for this tutorial
+2 files `meta` that contains the metadata and `script.sh` this script will generate a folder for each region an their respective manifest files.
 
 ```
 ├── db
@@ -20,25 +23,44 @@ cd mock_data
 │   ├── ref-seqs_gg_13_5_V2-9.qza
 │   └── sepp-refs-gg-13-8.qza
 ├── fastq
-│   ├── all the fastq files
-.  
-.
-.
-├── V2
-│   └── single-end-demuxV2.qza
-├── V3
-│   └── single-end-demuxV3.qza
-├── V4
-│   └── single-end-demuxV4.qza
-├── V67
-│   └── single-end-demuxV67.qza
-├── V8
-│   └── single-end-demuxV8.qza
-└── V9
-    └── single-end-demuxV9.qza
+│   ├── PA60.V2.FR.fastq.gz
+│   ├── PA60.V3.FR.fastq.gz
+│   ├── PA60.V4.FR.fastq.gz
+│   ├── PA60.V67.FR.fastq.gz
+│   ├── PA60.V8.FR.fastq.gz
+│   ├── PA60.V9.FR.fastq.gz
+│   ├── PF91.V2.FR.fastq.gz
+│   ├── PF91.V3.FR.fastq.gz
+│   ├── PF91.V4.FR.fastq.gz
+│   ├── PF91.V67.FR.fastq.gz
+│   ├── PF91.V8.FR.fastq.gz
+│   ├── PF91.V9.FR.fastq.gz
+│   ├── PF92.V2.FR.fastq.gz
+│   ├── PF92.V3.FR.fastq.gz
+│   ├── PF92.V4.FR.fastq.gz
+│   ├── PF92.V67.FR.fastq.gz
+│   ├── PF92.V8.FR.fastq.gz
+│   ├── PF92.V9.FR.fastq.gz
+│   ├── PF93.V2.FR.fastq.gz
+│   ├── PF93.V3.FR.fastq.gz
+│   ├── PF93.V4.FR.fastq.gz
+│   ├── PF93.V67.FR.fastq.gz
+│   ├── PF93.V8.FR.fastq.gz
+│   ├── PF93.V9.FR.fastq.gz
+│   ├── PF94.V2.FR.fastq.gz
+│   ├── PF94.V3.FR.fastq.gz
+│   ├── PF94.V4.FR.fastq.gz
+│   ├── PF94.V67.FR.fastq.gz
+│   ├── PF94.V8.FR.fastq.gz
+│   └── PF94.V9.FR.fastq.gz
+├── meta.txt
+└── script.sh
 ```
-## Data Import
-Here we show how to import the different fastqs for each region, as previosly describe a manifest file should be prepared and once the manifest file for each region is ready you can import the data as follows.
+
+
+
+## step 1: Data Import
+Here we show how to import the different fastqs for each region, as previosly described a manifest file should be prepared and once the manifest file for each region is ready you can import the data as follows.
 Since the manifest requires absolute file path we provide the data already imported, however the manifest is crucial for the multi-amplicon pipeline since 6 fastq of different region will be merged later to the same sample_id, here is an example for the V2 region import
 
 |  sample-id | absolute-filepath |
@@ -51,6 +73,17 @@ Since the manifest requires absolute file path we provide the data already impor
 |PA60.V2-9	|/path/to/fastq/PA60.V2.FR.fastq.gz|
 
 create the manifest and put a manifest file in each folder, navigate and import the data for each region
+
+```
+bash script.sh
+```
+this command will create 6 folders and generate the manifest files for this example
+
+now we can proceed with the import, first ensure you have activated the QIIME2 environment 
+```
+conda activate qiime2-2023.7
+```
+Now in the same directory we can proceed with the import:
 ```
 ### V2 Import
 qiime tools import \
@@ -99,15 +132,158 @@ This chuck of code will wimport sequentially all the fastqs into their respectiv
 * >Imported ./V9/manifest.txt as SingleEndFastqManifestPhred33V2 to ./V9/single-end-demuxV9.qza
 
 
-## QC
+## Step2: QC
 Now before proceeding we should inspect the imported sequences to estimate the legth that we want to keep during the demoising step, as stated in the original workflow this can be done using 
 the `demux summarize` command
 
 ```
+### V2 
 qiime demux summarize \
---i-data single-end-demux.qza \
---o-visualization single-end-demux.qzv
+--i-data ./V2/single-end-demuxV2.qza \
+--o-visualization ./V2/single-end-demuxV2.qzv
+### V3 
+qiime demux summarize \
+--i-data ./V3/single-end-demuxV3.qza \
+--o-visualization ./V3/single-end-demuxV3.qzv
+### V4 
+qiime demux summarize \
+--i-data ./V4/single-end-demuxV4.qza \
+--o-visualization ./V4/single-end-demuxV4.qzv
+### V6-7 
+qiime demux summarize \
+--i-data ./V67/single-end-demuxV67.qza \
+--o-visualization ./V67/single-end-demuxV67.qzv
+### V8 
+qiime demux summarize \
+--i-data ./V8/single-end-demuxV8.qza \
+--o-visualization ./V8/single-end-demuxV8.qzv
+### V9 
+qiime demux summarize \
+--i-data ./V9/single-end-demuxV9.qza \
+--o-visualization ./V9/single-end-demuxV9.qzv
+
 ```
 This command will generate a `.qzv` that can be inspected into [QIIME View](https://view.qiime2.org/)
-Moving to the tab of the interactive plot, we will chose the length by wich the reads quality at the 25
+Moving to the tab of the interactive plot, we will chose the length by wich the reads quality at the 25th percentile is equal or above 25 in the V2 example is 27
 ![plot](https://github.com/DeCeccoLAB/QIIME2-MultiRegion-Microbiome-Pipeline/blob/main/mock_example/input_data/Screenshot%202025-09-09%20095820.jpg?raw=true)
+
+## Step3: Denoising 
+
+After the visualt inspection of all the `.qzv` we will parse to dada2 the lenght that we want, we suggest to create a directory for each run of dada2 since later we will inspect the denoised stats to check if the leght chosen kept al least 70-80% of our original sequences
+
+```
+### V2
+mkdir ./V2/dada2-0-200
+### V3
+mkdir ./V3/dada2-0-178
+### V4
+mkdir ./V4/dada2-0-220
+### V6-7
+mkdir ./V67/dada2-0-200
+### V8
+mkdir ./V8/dada2-0-200
+### V9
+mkdir ./V9/dada2-0-170
+```
+
+```
+### V2
+qiime dada2 denoise-pyro \
+--i-demultiplexed-seqs ./V2/single-end-demuxV2.qza \
+--p-trim-left 0 \
+--p-trunc-len 200 \
+--p-n-threads 18 \
+--o-table ./V2/dada2-0-200/table-dada2-pyroV2.qza \
+--o-representative-sequences ./V2/dada2-0-200/rep-seqs-dada2-pyroV2.qza \
+--o-denoising-stats ./V2/dada2-0-200/stats-dada2V2.qza
+### V3
+qiime dada2 denoise-pyro \
+--i-demultiplexed-seqs ./V3/single-end-demuxV3.qza \
+--p-trim-left 0 \
+--p-trunc-len 178 \
+--p-n-threads 18 \
+--o-table ./V3/dada2-0-178/table-dada2-pyroV3.qza \
+--o-representative-sequences ./V3/dada2-0-178/rep-seqs-dada2-pyroV3.qza \
+--o-denoising-stats ./V3/dada2-0-178/stats-dada2V3.qza
+### V4
+qiime dada2 denoise-pyro \
+--i-demultiplexed-seqs ./V4/single-end-demuxV4.qza \
+--p-trim-left 0 \
+--p-trunc-len 220 \
+--p-n-threads 18 \
+--o-table ./V4/dada2-0-220/table-dada2-pyroV4.qza \
+--o-representative-sequences ./V4/dada2-0-220/rep-seqs-dada2-pyroV4.qza \
+--o-denoising-stats ./V4/dada2-0-220/stats-dada2V4.qza
+### V6-7
+qiime dada2 denoise-pyro \
+--i-demultiplexed-seqs ./V67/single-end-demuxV67.qza \
+--p-trim-left 0 \
+--p-trunc-len 200 \
+--p-n-threads 18 \
+--o-table ./V67/dada2-0-200/table-dada2-pyroV67.qza \
+--o-representative-sequences ./V67/dada2-0-200/rep-seqs-dada2-pyroV67.qza \
+--o-denoising-stats ./V67/dada2-0-200/stats-dada2V67.qza
+### V8
+qiime dada2 denoise-pyro \
+--i-demultiplexed-seqs ./V8/single-end-demuxV8.qza \
+--p-trim-left 0 \
+--p-trunc-len 200 \
+--p-n-threads 18 \
+--o-table ./V8/dada2-0-200/table-dada2-pyroV8.qza \
+--o-representative-sequences  ./V8/dada2-0-200/rep-seqs-dada2-pyroV8.qza \
+--o-denoising-stats  ./V8/dada2-0-200/stats-dada2V8.qza
+### V9
+qiime dada2 denoise-pyro \
+--i-demultiplexed-seqs ./V9/single-end-demuxV9.qza \
+--p-trim-left 0 \
+--p-trunc-len 200 \
+--p-n-threads 18 \
+--o-table ./V9/dada2-0-170/table-dada2-pyroV9.qza \
+--o-representative-sequences ./V9/dada2-0-170/rep-seqs-dada2-pyroV9.qza \
+--o-denoising-stats ./V9/dada2-0-170/stats-dada2V9.qza
+```
+A the end of the denoising process we will obtain 3 files in each V-directory
+```
+Saved FeatureTable[Frequency] to: ./V2/dada2-0-200/table-dada2-pyroV2.qza
+Saved FeatureData[Sequence] to: ./V2/dada2-0-200/rep-seqs-dada2-pyroV2.qza
+Saved SampleData[DADA2Stats] to: ./V2/dada2-0-200/stats-dada2V2.qza
+.
+.
+.
+```
+### Denoising-QC
+To check if our denosing did a good job in keeping most of our reads we need to inspect the denoising stats
+
+```
+### V2
+qiime metadata tabulate \
+  --m-input-file ./V2/dada2-0-200/stats-dada2V2.qza \
+  --o-visualization ./V2/dada2-0-200/stats-dada2V2.qzv
+### V3
+qiime metadata tabulate \
+  --m-input-file ./V3/dada2-0-178/stats-dada2V3.qza \
+  --o-visualization ./V3/dada2-0-178/stats-dada2V3.qzv
+### V4
+qiime metadata tabulate \
+  --m-input-file ./V4/dada2-0-220/stats-dada2V4.qza \
+  --o-visualization ./V4/dada2-0-220/stats-dada2V4.qzv
+### V6-7
+qiime metadata tabulate \
+  --m-input-file ./V67/dada2-0-200/stats-dada2V67.qza \
+  --o-visualization ./V67/dada2-0-200/stats-dada2V67.qzv
+### V8
+qiime metadata tabulate \
+  --m-input-file ./V8/dada2-0-200/stats-dada2V8.qza \
+  --o-visualization ./V8/dada2-0-200/stats-dada2V8.qzv
+### V9
+qiime metadata tabulate \
+  --m-input-file ./V9/dada2-0-170/stats-dada2V9.qza \
+  --o-visualization ./V9/dada2-0-170/stats-dada2V9.qzv
+
+```
+The metadata tabulate will generate a .qzv file containing the donoising stats to be inspected with QIIME view.
+
+> Note: As observed in our original work, the V9 region did not gave any sequence after the denoising, probabily due to the mock composition or the low sequencing depth, but we will keep the file as is and continue with the example
+
+
+
