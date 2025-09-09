@@ -174,7 +174,7 @@ qiime demux summarize \
 ```
 This command will generate a `.qzv` that can be inspected into [QIIME View](https://view.qiime2.org/)
 Moving to the tab of the interactive plot, we will chose the length by wich the reads quality at the 25th percentile is equal or above 25 in the V2 example is 27
-![plot](https://github.com/DeCeccoLAB/QIIME2-MultiRegion-Microbiome-Pipeline/blob/main/mock_example/input_data/Screenshot%202025-09-09%20095820.jpg?raw=true)
+![plot](https://github.com/DeCeccoLAB/QIIME2-MultiRegion-Microbiome-Pipeline/blob/main/mock_example/input_data/Screenshot%202025-09-09%20095820.jpg)
 
 ## Step3: Denoising 
 
@@ -292,7 +292,7 @@ qiime metadata tabulate \
 ```
 The `metadata tabulate` will generate a `.qzv` file containing the donoising stats to be inspected with QIIME view.
 Here is the example of the denoised stats of the V2 fastqs:
-![plot](https://github.com/DeCeccoLAB/QIIME2-MultiRegion-Microbiome-Pipeline/blob/main/mock_example/input_data/Screenshot%202025-09-09%20142509.jpg?raw=true)
+![plot](https://github.com/DeCeccoLAB/QIIME2-MultiRegion-Microbiome-Pipeline/blob/main/mock_example/input_data/Screenshot%202025-09-09%20142509.jpg)
 > Note: As observed in our original work, the V9 region did not gave any sequence after the denoising, probabily due to the mock composition or the low sequencing depth, but we will keep the file as is and continue with the example
 
 ## Step4: Data merging
