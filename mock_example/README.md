@@ -2,18 +2,28 @@
 
 In this page we will going throuh an example of pipeline using the data available from our study avilable [here](https://journals.asm.org/doi/10.1128/spectrum.01673-25) 
 
+```
+mkdir mock_example
+cd mock_example
+```
+
 ## Download the data
 
 ```
 wget -O mock_data.tar.gz https://github.com/DeCeccoLAB/QIIME2-MultiRegion-Microbiome-Pipeline/raw/refs/heads/main/mock_example/input_data/mock_data.tar.gz?download=
 
 tar -xvzf mock_data.tar.gz
-
-cd mock_data
-
 ```
-Now that you downloaded the file from this repository the content will appear like this 
+Now we downloaded and extracted the `mock_data.tar.gz` containing all the files for this tutorial at this point if you do have a QIIME2 v2023.7 environment you can opt for our docker container, 
+```
+sudo docker run --rm -it -v ./:/tmp/mnt/ --entrypoint bash qiime2023.7:v6
 
+cd tmp/mnt/mock_data #for docker users
+```
+If you already have you QIIME environemt you can simply navigate into the data folder by running `cd ./mock_data/` folder and continue with this tutorial
+
+
+Now that you downloaded the file from this repository the content will appear like this 
 2 folders named `db` and `fastq` that contains the reference databases used in our original paper and the raw data that we will use for this tutorial
 2 files `meta` that contains the metadata and `script.sh` this script will generate a folder for each region an their respective manifest files.
 
@@ -61,7 +71,7 @@ Now that you downloaded the file from this repository the content will appear li
 
 ## step 1: Data Import
 Here we show how to import the different fastqs for each region, as previosly described a manifest file should be prepared and once the manifest file for each region is ready you can import the data as follows.
-Since the manifest requires absolute file path we provide the data already imported, however the manifest is crucial for the multi-amplicon pipeline since 6 fastq of different region will be merged later to the same sample_id, here is an example for the V2 region import
+the manifest is crucial for the multi-amplicon pipeline since 6 fastq of different region will be merged later to the same sample_id, here is an example for the V2 region import
 
 |  sample-id | absolute-filepath |
 | ------------- | ------------- |
@@ -72,7 +82,7 @@ Since the manifest requires absolute file path we provide the data already impor
 |PF94.V2-9	|/path/to/fastq/PF94.V2.FR.fastq.gz|
 |PA60.V2-9	|/path/to/fastq/PA60.V2.FR.fastq.gz|
 
-create the manifest and put a manifest file in each folder, navigate and import the data for each region
+For this tutorial we provide a script that will automatically generate 6 folder and 6 manifest files respectively
 
 ```
 bash script.sh
