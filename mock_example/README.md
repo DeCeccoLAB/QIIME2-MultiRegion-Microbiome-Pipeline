@@ -16,7 +16,7 @@ tar -xvzf mock_data.tar.gz
 ```
 Now we downloaded and extracted the `mock_data.tar.gz` containing all the files for this tutorial at this point if you do have a QIIME2 v2023.7 environment you can opt for our docker container, 
 ```
-sudo docker run --rm -it -v ./:/tmp/mnt/ --entrypoint bash qiime2023.7:v6
+sudo docker run --rm -it -v ./:/tmp/mnt/ --entrypoint bash armalica/qiime2:v1
 
 cd tmp/mnt/mock_data #for docker users
 ```
