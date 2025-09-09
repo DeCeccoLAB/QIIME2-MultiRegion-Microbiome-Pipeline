@@ -320,6 +320,26 @@ qiime fragment-insertion sepp \
   --p-threads 30 \
   --o-placements ./phylogeny/insertion-placements.qza
 ```
+The insertion placement will generate 2 files: 
 
+* > Saved Phylogeny[Rooted] to: ./phylogeny/insertion-tree.qza
+* > Saved Placements to: ./phylogeny/insertion-placements.qza
+
+Now we need to filter out the sequences that were not inserted into the rooted tree
 ```
+qiime fragment-insertion filter-features \
+  --i-table ../merged-tableV2-9.qza \
+  --i-tree insertion-tree.qza \
+  --o-filtered-table filtered_table.qza \
+  --o-removed-table removed_table.qza
+
+qiime feature-table filter-seqs \
+--i-data ../rep-seqsV2-9.qza \
+--i-table filtered_table.qza \
+--o-filtered-data filtered-seqs.qza
+
+qiime feature-table summarize \
+  --i-table filtered_table.qza \
+  --o-visualization feature-table.qzv \
+  --m-sample-metadata-file ../metadata_qiime2.txt
 ```
