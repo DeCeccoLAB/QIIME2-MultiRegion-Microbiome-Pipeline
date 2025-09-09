@@ -305,8 +305,8 @@ qiime feature-table merge-seqs \
 
 the code will automatically merge all the sequences and tables to generate a unique table, since this workflow is used to generate a multi-aplicon profile we need to provide an option to tell QIIME to merge different tables coming from the same sample using the option `--p-overlap-method sum `
 
-*Saved FeatureTable[Frequency] to: merged-tableV2-9.qza
-*Saved FeatureData[Sequence] to: rep-seqsV2-9.qza
+* >Saved FeatureTable[Frequency] to: merged-tableV2-9.qza
+* >Saved FeatureData[Sequence] to: rep-seqsV2-9.qza
 
 ## Step5: Tree generation
 
@@ -339,9 +339,9 @@ qiime feature-table filter-seqs \
 --o-filtered-data ./phylogeny/filtered-seqs.qza
 ```
 This command will output three files:
-*> Saved FeatureTable[Frequency] to: ./phylogeny/filtered_table.qza
-*>Saved FeatureTable[Frequency] to: ./phylogeny/removed_table.qza
-*>Saved FeatureData[Sequence] to: ./phylogeny/filtered-seqs.qza
+* > Saved FeatureTable[Frequency] to: ./phylogeny/filtered_table.qza
+* >Saved FeatureTable[Frequency] to: ./phylogeny/removed_table.qza
+* >Saved FeatureData[Sequence] to: ./phylogeny/filtered-seqs.qza
 
 Now we can inspect the filtered table by running `feature-table summarize`
 ```
@@ -363,5 +363,5 @@ qiime feature-classifier classify-consensus-vsearch \
 ```
 
 this step will generate 2 files inside the directory `./taxonomy99`
-*> Saved FeatureData[Taxonomy] to: ./taxonomy99/classification.qza
-*> Saved FeatureData[BLAST6] to: ./taxonomy99/search_results.qza
+* > Saved FeatureData[Taxonomy] to: ./taxonomy99/classification.qza
+* > Saved FeatureData[BLAST6] to: ./taxonomy99/search_results.qza
