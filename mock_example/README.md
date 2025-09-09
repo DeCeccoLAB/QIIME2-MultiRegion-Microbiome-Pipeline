@@ -1,8 +1,8 @@
-#Pipeline Example
+# Pipeline Example
 
-In this page we will going throuh an example of pipeline using the data available from our study avilable [here]([https://journals.asm.org/doi/10.1128/spectrum.01673-25]) 
+In this page we will going throuh an example of pipeline using the data available from our study avilable [here](https://journals.asm.org/doi/10.1128/spectrum.01673-25) 
 
-##Download the data
+## Download the data
 
 ```
 wget -O mock_data.tar.gz https://github.com/DeCeccoLAB/QIIME2-MultiRegion-Microbiome-Pipeline/raw/refs/heads/main/mock_example/input_data/mock_data.tar.gz?download=
