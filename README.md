@@ -225,6 +225,39 @@ qiime taxa filter-seqs \
     --o-dereplicated-sequences tmp/mnt/path/to/gg_13_5V2-9/filtereddb/filtereddb/ggV2-9-filtered-phylum-def-sequences-uniq.qza \
     --o-dereplicated-taxa  tmp/mnt/path/to/gg_13_5V2-9/filtereddb/filtereddb/ggV2-9-filtered-phylum-def-tax-derep-uniq.qza
 ```
+
+# Outputs
+If the pipeline has run successfully, you will have generated several key QIIME2 artifacts `(.qza)` and visualizations `(.qzv)`. This section describes the most important final files that are ready for downstream analysis, as well as the intermediate files that are crucial for quality control.
+
+**Final Artifacts for Downstream Analysis**
+At the end of the tutorial, the phyloseq99 directory is created to hold the four essential files needed to build a phyloseq object in R. These are the primary outputs of the pipeline.
+
+* `phyloseq99/filtered_table.qza`
+> Description: This is the final, merged Amplicon Sequence Variant (ASV) abundance table. It contains the read counts for every ASV in every sample. It has been filtered to include only the ASVs that were successfully placed into the phylogenetic tree.
+
+* `phyloseq99/classification.qza`
+> Description: This file contains the taxonomic lineage (from Kingdom to Species) for every ASV in your feature table. The taxonomy was assigned using the classify-consensus-vsearch method against the Greengenes database.
+
+* `phyloseq99/insertion-tree.qza`
+> Description: This is the rooted phylogenetic tree containing all of your ASVs. It was generated using the SEPP fragment insertion tool and is required for phylogenetic diversity metrics like Faith's PD and UniFrac distances.
+
+* `phyloseq99/metadata.txt`
+> Description: This is your original sample metadata file, placed here for convenience, ready to be imported into R alongside the other artifacts.
+
+**Key Intermediate and Quality Control Files**
+
+Throughout the workflow, several visualization artifacts `.qzv` files are generated. These are not used in the final analysis but are critical for verifying that each step worked as expected. You can view them by dragging the files to view.qiime2.org.
+
+* `V#/single-end-demuxV#.qzv`
+> Purpose: Initial Read Quality. This is the first and most important QC step. The interactive quality plot in this file is used to determine the appropriate truncation length (--p-trunc-len) for the DADA2 denoising step.
+
+* `*V#/dada2-0-200/stats-dada2V#.qzv`
+> Purpose: Denoising Efficiency. This file shows how many reads were retained through the filtering, denoising, and merging steps of DADA2. You should check this to ensure that a high percentage (e.g., >60-70%) of your input reads were successfully processed.
+
+* `phylogeny/filtered-table.qzv`
+> Purpose: Final Table Summary. This provides a summary of the final, merged feature table after SEPP filtering. It is useful for checking the final feature and sample counts and viewing read depth distribution across your samples.
+
+
 # Importing QIIME 2 data into RStudio
 With all the necessary files prepared, we can now import the data into RStudio using the [qiime2R](https://github.com/jbisanz/qiime2R) package. 
 Here is the list of required files for this tutorial. We will copy them into a new folder called Phyloseq99.
