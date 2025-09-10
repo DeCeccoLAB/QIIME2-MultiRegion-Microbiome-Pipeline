@@ -10,7 +10,7 @@ mkdir mock_example
 cd mock_example
 ```
 
-## 1.Download the data
+## Download the data
 
 We will download the example dataset, which includes the FASTQ files, reference databases, and metadata.
 
