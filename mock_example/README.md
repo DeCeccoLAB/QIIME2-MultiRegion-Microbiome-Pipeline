@@ -294,9 +294,6 @@ qiime feature-table merge-seqs \
 
 > Key Parameter: The `--p-overlap-method sum` option is critical. If the same ASV was detected in multiple regions for a given sample, this command sums their abundances together, providing a total count for that ASV in that sample.
 
-* >Saved FeatureTable[Frequency] to: merged-tableV2-9.qza
-* >Saved FeatureData[Sequence] to: rep-seqsV2-9.qza
-
 ## Step 5: Generate a Phylogenetic Tree
 
 To perform phylogenetic diversity analyses, we need to build a tree containing our ASVs. We use SEPP (SATé-enabled Phylogenetic Placement) to insert our short ASV sequences into a trusted reference phylogeny (Greengenes).
