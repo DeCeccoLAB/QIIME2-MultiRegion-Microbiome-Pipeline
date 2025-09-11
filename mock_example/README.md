@@ -228,7 +228,7 @@ qiime dada2 denoise-pyro \
 qiime dada2 denoise-pyro \
 --i-demultiplexed-seqs ./V9/single-end-demuxV9.qza \
 --p-trim-left 0 \
---p-trunc-len 200 \
+--p-trunc-len 170 \
 --p-n-threads 18 \
 --o-table ./V9/dada2-0-170/table-dada2-pyroV9.qza \
 --o-representative-sequences ./V9/dada2-0-170/rep-seqs-dada2-pyroV9.qza \
